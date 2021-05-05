@@ -1,12 +1,12 @@
 package com.mycompany.climaregist.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Davidson
  */
 public interface IModelObserver {
-    public void update (ArrayList <dado>  dados);
+    public void update (List <WeatherData>  dados);
     
 }

@@ -28,12 +28,12 @@ import javax.swing.JTextPane;
  *
  * @author Davidson
  */
-public class TelaPrincipal extends javax.swing.JFrame {
+public class TelaPrincipalView extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaPrincipal
      */
-    public TelaPrincipal() {
+    public TelaPrincipalView() {
         initComponents();
         setVisible(true);
         this.setLocationRelativeTo(this.getParent());
