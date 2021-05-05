@@ -1,6 +1,5 @@
 package com.mycompany.climaregist.model;
 
-import com.mycompany.climaregist.collection.WeatherDataCollection;
 import java.time.LocalDate;
 
 /**

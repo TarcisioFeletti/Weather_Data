@@ -41,18 +41,11 @@ public class PrincipalPresenterExcluirCommand implements IPrincipalPresenterComm
         banco.getXMLArray().append("<log>").append(xml).append("</log>");
         banco.getJsonArray().add(jsonObject);
         Vector vetor = model.getDataVector().elementAt(tabela.getSelectedRow());
-
         LocalDate data = LocalDate.of(Integer.parseInt(vetor.get(0).toString().substring(6, 10)), 
                 Integer.parseInt(vetor.get(0).toString().substring(3, 5)),
                 Integer.parseInt(vetor.get(0).toString().substring(0, 2)));
-        WeatherData weatherData = new WeatherData(data, Float.parseFloat(vetor.get(1).toString()),
-                Float.parseFloat(vetor.get(2).toString()), Float.parseFloat(vetor.get(3).toString()));      
-        WeatherDataCollection.getInstancia().remove(weatherData);
-
-    }
-
-    public void update(WeatherData dado) {
-        //PrincipalPresenter.atualizarTabela(dado);
+        WeatherDataCollection.getInstancia().remove(new WeatherData(data, Float.parseFloat(vetor.get(1).toString()),
+                Float.parseFloat(vetor.get(2).toString()), Float.parseFloat(vetor.get(3).toString())));
 
     }
 

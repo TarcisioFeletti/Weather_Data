@@ -20,6 +20,7 @@ public class PrincipalPresenter implements IModelObserver {
 
     private static PrincipalPresenter instancia;
     private TelaPrincipalView tela;
+    private int numRowsAnterior;
 
     private PrincipalPresenter() {
         tela = new TelaPrincipalView();
@@ -32,7 +33,7 @@ public class PrincipalPresenter implements IModelObserver {
         return instancia;
     }
 
-    public void iniciarListeners(String args[]) {
+    public void iniciarListeners() {
         tela.getIncluirDados().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,12 +57,19 @@ public class PrincipalPresenter implements IModelObserver {
         tela.getUltimaPressao().setText(Float.toString(pressao));
     }
 
-    public void atualizarTabela(WeatherData dado) {
-
+    public void incluirNaTabela(WeatherData dado) {
         JTable registroTabela = tela.getRegistroTabela();
-
         DefaultTableModel model = (DefaultTableModel) registroTabela.getModel();
-        model.addRow(new Object[]{dado.getData(), dado.getTemperatura(), dado.getUmidade(), dado.getPressao()});
+
+        model.addRow(new Object[]{dado.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+            dado.getTemperatura(), dado.getUmidade(), dado.getPressao()});
+    }
+
+    public void excluirDaTabela() {
+        JTable registroTabela = tela.getRegistroTabela();
+        DefaultTableModel model = (DefaultTableModel) registroTabela.getModel();
+
+        model.removeRow(registroTabela.getSelectedRow());
     }
 
     public void atualizarMedia(float temperatura, float umidade, float pressao, int count) {
@@ -77,29 +85,40 @@ public class PrincipalPresenter implements IModelObserver {
 
     @Override
     public void update(List<WeatherData> weatherDataCollection) {
-        WeatherData weatherData = weatherDataCollection.get(weatherDataCollection.size() - 1);
-        atualizarUltima(weatherData.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), weatherData.getTemperatura(),
-                weatherData.getUmidade(), weatherData.getPressao());
-        switch (tela.getSelecionadoPeriodo().getSelectedIndex()) {
-            case 0:
-                atualizarMedia(CalcularMediaDiariaPresenter.getInstancia().getMediaTemperatura(),
-                        CalcularMediaDiariaPresenter.getInstancia().getMediaUmidade(),
-                        CalcularMediaDiariaPresenter.getInstancia().getMediaPressao(),
-                        CalcularMediaDiariaPresenter.getInstancia().getCount());
-                break;
-            case 1:
-                atualizarMedia(CalcularMediaSemanalPresenter.getInstancia().getMediaTemperatura(),
-                        CalcularMediaSemanalPresenter.getInstancia().getMediaUmidade(),
-                        CalcularMediaSemanalPresenter.getInstancia().getMediaPressao(),
-                        CalcularMediaSemanalPresenter.getInstancia().getCount());
-                break;
-            case 2:
-                atualizarMedia(CalcularMediaMensalPresenter.getInstancia().getMediaTemperatura(),
-                        CalcularMediaMensalPresenter.getInstancia().getMediaUmidade(),
-                        CalcularMediaMensalPresenter.getInstancia().getMediaPressao(),
-                        CalcularMediaMensalPresenter.getInstancia().getCount());
-                break;
-
+        if (weatherDataCollection.size() > 0) {
+            WeatherData weatherData = weatherDataCollection.get(weatherDataCollection.size() - 1);
+            atualizarUltima(weatherData.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), weatherData.getTemperatura(),
+                    weatherData.getUmidade(), weatherData.getPressao());
+            switch (tela.getSelecionadoPeriodo().getSelectedIndex()) {
+                case 0:
+                    atualizarMedia(CalcularMediaDiariaPresenter.getInstancia().getMediaTemperatura(),
+                            CalcularMediaDiariaPresenter.getInstancia().getMediaUmidade(),
+                            CalcularMediaDiariaPresenter.getInstancia().getMediaPressao(),
+                            CalcularMediaDiariaPresenter.getInstancia().getCount());
+                    break;
+                case 1:
+                    atualizarMedia(CalcularMediaSemanalPresenter.getInstancia().getMediaTemperatura(),
+                            CalcularMediaSemanalPresenter.getInstancia().getMediaUmidade(),
+                            CalcularMediaSemanalPresenter.getInstancia().getMediaPressao(),
+                            CalcularMediaSemanalPresenter.getInstancia().getCount());
+                    break;
+                case 2:
+                    atualizarMedia(CalcularMediaMensalPresenter.getInstancia().getMediaTemperatura(),
+                            CalcularMediaMensalPresenter.getInstancia().getMediaUmidade(),
+                            CalcularMediaMensalPresenter.getInstancia().getMediaPressao(),
+                            CalcularMediaMensalPresenter.getInstancia().getCount());
+                    break;
+            }
+            if (numRowsAnterior < weatherDataCollection.size()) {
+                incluirNaTabela(weatherDataCollection.get(weatherDataCollection.size() - 1));
+            } else {
+                excluirDaTabela();
+            }
+        }else{
+            atualizarUltima("", 0, 0, 0);
+            atualizarMedia(0, 0, 0, 0);
+            excluirDaTabela();
         }
+
     }
 }

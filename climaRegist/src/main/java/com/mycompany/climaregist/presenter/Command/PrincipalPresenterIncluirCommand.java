@@ -1,5 +1,6 @@
 package com.mycompany.climaregist.presenter.Command;
 
+import com.mycompany.climaregist.collection.WeatherDataCollection;
 import com.mycompany.climaregist.model.banco;
 import com.mycompany.climaregist.model.WeatherData;
 import org.json.XML;
@@ -20,9 +21,9 @@ public class PrincipalPresenterIncluirCommand implements IPrincipalPresenterComm
         LocalDate data = LocalDate.of(Integer.parseInt(presenter.getTela().getDadosTempoData().getText().substring(6, 10)), 
                 Integer.parseInt(presenter.getTela().getDadosTempoData().getText().substring(3, 5)),
                 Integer.parseInt(presenter.getTela().getDadosTempoData().getText().substring(0, 2)));
-        WeatherData weatherData = new WeatherData(data, Float.parseFloat(presenter.getTela().getDadosTempoTemperatura().getText()),
+        WeatherDataCollection.getInstancia().add(new WeatherData(data, Float.parseFloat(presenter.getTela().getDadosTempoTemperatura().getText()),
                 Float.parseFloat(presenter.getTela().getDadosTempoUmidade().getText()), 
-                Float.parseFloat(presenter.getTela().getDadosTempoPressao().getText()));
+                Float.parseFloat(presenter.getTela().getDadosTempoPressao().getText())));
         
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("Data", presenter.getTela().getDadosTempoData().getText());

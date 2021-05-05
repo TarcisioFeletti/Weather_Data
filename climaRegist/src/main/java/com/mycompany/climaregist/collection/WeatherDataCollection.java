@@ -52,8 +52,8 @@ public class WeatherDataCollection implements IRecebeDados {
         observerCollection.add(ob);
     }
     
-    public void add (WeatherData dado){
-        weatherDataCollection.add(dado);
+    public void add (WeatherData weatherData){
+        weatherDataCollection.add(weatherData);
         notificar();
     }
     
