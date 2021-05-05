@@ -1,7 +1,8 @@
-package com.mycompany.climaregist.model;
+package com.mycompany.climaregist.presenter;
 
-import com.mycompany.climaregist.presenter.atualizarTela;
-import java.util.ArrayList;
+import com.mycompany.climaregist.model.IModelObserver;
+import com.mycompany.climaregist.model.WeatherData;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,8 @@ public class ultimaAtualizacaoObserver implements IModelObserver {
     private float umidade;
     private float pressao;
 
-    public void update(ArrayList<dado> dado) {
+    @Override
+    public void update(List<WeatherData> dado) {
 
         if (dado.size() > 0) {
             data = dado.get(dado.size() - 1).getData();
@@ -22,9 +24,9 @@ public class ultimaAtualizacaoObserver implements IModelObserver {
             umidade = dado.get(dado.size() - 1).getUmidade();
             pressao = dado.get(dado.size() - 1).getPressao();
 
-            atualizarTela.atualizarUltima(data, temperatura, umidade, pressao);
+            PrincipalPresenter.atualizarUltima(data, temperatura, umidade, pressao);
         } else {
-            atualizarTela.atualizarUltima("-", 0, 0, 0);
+            PrincipalPresenter.atualizarUltima("-", 0, 0, 0);
         }
 
     }
