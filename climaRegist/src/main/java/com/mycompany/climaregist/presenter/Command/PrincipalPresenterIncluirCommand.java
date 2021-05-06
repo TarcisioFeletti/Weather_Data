@@ -26,11 +26,7 @@ public class PrincipalPresenterIncluirCommand implements IPrincipalPresenterComm
                 Float.parseFloat(presenter.getTela().getDadosTempoPressao().getText())));
         
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Data", presenter.getTela().getDadosTempoData().getText());
-        jsonObject.put("Temperatura", presenter.getTela().getDadosTempoTemperatura().getText());
-        jsonObject.put("Umidade", presenter.getTela().getDadosTempoUmidade().getText());
-        jsonObject.put("Pressão", presenter.getTela().getDadosTempoPressao().getText());
-        jsonObject.put("Tipo", "Inclusão");
+        
         String xml = XML.toString(jsonObject);
         banco.getJsonArray().add(jsonObject);
         banco.getXMLArray().append("<log>").append(xml).append("</log>");
