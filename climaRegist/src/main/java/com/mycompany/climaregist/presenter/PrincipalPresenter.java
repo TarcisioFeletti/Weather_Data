@@ -54,6 +54,33 @@ public class PrincipalPresenter implements IModelObserver {
             }
         });
 
+        tela.getAtualizarDadosMedios().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (tela.getSelecionadoPeriodo().getSelectedIndex()) {
+                    case 0:
+                        tela.getMedioTemperatura().setText(String.valueOf(CalcularMediaDiariaPresenter.getInstancia().getMediaTemperatura()));
+                        tela.getMedioUmidade().setText(String.valueOf(CalcularMediaDiariaPresenter.getInstancia().getMediaUmidade()));
+                        tela.getMedioPressao().setText(String.valueOf(CalcularMediaDiariaPresenter.getInstancia().getMediaPressao()));
+                        tela.getMedioRegistros().setText(String.valueOf(CalcularMediaDiariaPresenter.getInstancia().getCount()));
+
+                        break;
+                    case 1:
+                        tela.getMedioTemperatura().setText(String.valueOf(CalcularMediaSemanalPresenter.getInstancia().getMediaTemperatura()));
+                        tela.getMedioUmidade().setText(String.valueOf(CalcularMediaSemanalPresenter.getInstancia().getMediaUmidade()));
+                        tela.getMedioPressao().setText(String.valueOf(CalcularMediaSemanalPresenter.getInstancia().getMediaPressao()));
+                        tela.getMedioRegistros().setText(String.valueOf(CalcularMediaSemanalPresenter.getInstancia().getCount()));
+                        break;
+                    case 2:
+                        tela.getMedioTemperatura().setText(String.valueOf(CalcularMediaMensalPresenter.getInstancia().getMediaTemperatura()));
+                        tela.getMedioUmidade().setText(String.valueOf(CalcularMediaMensalPresenter.getInstancia().getMediaUmidade()));
+                        tela.getMedioPressao().setText(String.valueOf(CalcularMediaMensalPresenter.getInstancia().getMediaPressao()));
+                        tela.getMedioRegistros().setText(String.valueOf(CalcularMediaMensalPresenter.getInstancia().getCount()));
+                        break;
+                }
+            }
+        });
+
         tela.getBtnGerarGrafico().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -62,7 +89,7 @@ public class PrincipalPresenter implements IModelObserver {
                 Grafico grafico = new Grafico();
                 if (tela.getEscolhaGrafico().getSelectedIndex() == 0) {
                     grafico = diretor.constroi(new GraficoHorizontalBuilder(grafico));
-                } else if(tela.getEscolhaGrafico().getSelectedIndex() == 1){
+                } else if (tela.getEscolhaGrafico().getSelectedIndex() == 1) {
                     grafico = diretor.constroi(new GraficoVerticalBuilder(grafico));
                 }
                 iniciarDialog(grafico);
@@ -131,6 +158,7 @@ public class PrincipalPresenter implements IModelObserver {
                             CalcularMediaDiariaPresenter.getInstancia().getMediaUmidade(),
                             CalcularMediaDiariaPresenter.getInstancia().getMediaPressao(),
                             CalcularMediaDiariaPresenter.getInstancia().getCount());
+
                     break;
                 case 1:
                     atualizarMedia(CalcularMediaSemanalPresenter.getInstancia().getMediaTemperatura(),

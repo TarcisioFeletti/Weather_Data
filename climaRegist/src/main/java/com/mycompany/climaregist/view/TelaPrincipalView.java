@@ -735,6 +735,11 @@ public class TelaPrincipalView extends javax.swing.JFrame {
     public JComboBox<String> getEscolhaGrafico() {
         return escolhaGrafico;
     }
+
+    public JButton getAtualizarDadosMedios() {
+        return atualizarDadosMedios;
+    }
+    
     
     
 

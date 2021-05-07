@@ -5,25 +5,30 @@
  */
 package com.mycompany.climaregist.presenter;
 
+import com.mycompany.climaregist.collection.WeatherDataCollection;
 import com.mycompany.climaregist.model.IModelObserver;
 import com.mycompany.climaregist.model.WeatherData;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
  *
  * @author tarci
  */
-public class CalcularMediaMensalPresenter implements IModelObserver{
+public class CalcularMediaMensalPresenter implements IModelObserver {
+
     private static CalcularMediaMensalPresenter instancia;
     private int count;
     private float mediaTemperatura;
     private float mediaUmidade;
     private float mediaPressao;
-    
-    private CalcularMediaMensalPresenter(){}
+
+    private CalcularMediaMensalPresenter() {
+    }
 
     public static CalcularMediaMensalPresenter getInstancia() {
-        if(instancia == null){
+        if (instancia == null) {
             instancia = new CalcularMediaMensalPresenter();
         }
         return instancia;
@@ -44,28 +49,30 @@ public class CalcularMediaMensalPresenter implements IModelObserver{
     public float getMediaPressao() {
         return mediaPressao;
     }
-    
-    
 
     @Override
     public void update(List<WeatherData> weatherDataCollection) {
-        try{
+        try {
 
             mediaTemperatura = 0;
             mediaUmidade = 0;
             mediaPressao = 0;
             count = 0;
+            var today = LocalDate.now();
 
-            for (WeatherData weatherData : weatherDataCollection) {
-                mediaTemperatura += weatherData.getTemperatura();
-                mediaUmidade += weatherData.getUmidade();
-                mediaPressao += weatherData.getPressao();
-                count++;
+            for (WeatherData weatherData : WeatherDataCollection.getInstancia().getWeatherDataCollection()) {
+                if (today.getMonthValue() == weatherData.getData().getMonthValue()) {
+                    mediaTemperatura += weatherData.getTemperatura();
+                    mediaUmidade += weatherData.getUmidade();
+                    mediaPressao += weatherData.getPressao();
+                    count++;
+                }
             }
+
             mediaTemperatura = mediaTemperatura / count;
             mediaUmidade = mediaUmidade / count;
             mediaPressao = mediaPressao / count;
-        }catch(IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             throw e;
         }
     }
