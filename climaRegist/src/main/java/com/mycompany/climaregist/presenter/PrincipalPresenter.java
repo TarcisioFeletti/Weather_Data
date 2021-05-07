@@ -5,12 +5,19 @@ import com.mycompany.climaregist.model.IModelObserver;
 import com.mycompany.climaregist.model.WeatherData;
 import com.mycompany.climaregist.presenter.Command.PrincipalPresenterExcluirCommand;
 import com.mycompany.climaregist.view.TelaPrincipalView;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -45,6 +52,14 @@ public class PrincipalPresenter implements IModelObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new PrincipalPresenterExcluirCommand().executar(instancia);
+            }
+        });
+
+        tela.getBtnGerarGrafico().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GerarGraficoPresenter gerarGrafico = new GerarGraficoPresenter(new Frame(), true);
+                gerarGrafico.viewGraficos(tela); //funcao do botão de buscar funcionario
             }
         });
 
@@ -114,7 +129,7 @@ public class PrincipalPresenter implements IModelObserver {
             } else {
                 excluirDaTabela();
             }
-        }else{
+        } else {
             atualizarUltima("", 0, 0, 0);
             atualizarMedia(0, 0, 0, 0);
             excluirDaTabela();
