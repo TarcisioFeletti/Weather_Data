@@ -1,23 +1,22 @@
 package com.mycompany.climaregist.presenter;
 
+import com.mycompany.climaregist.model.Grafico;
 import com.mycompany.climaregist.presenter.Command.PrincipalPresenterIncluirCommand;
 import com.mycompany.climaregist.model.IModelObserver;
 import com.mycompany.climaregist.model.WeatherData;
+import com.mycompany.climaregist.presenter.Builder.Diretor;
+import com.mycompany.climaregist.presenter.Builder.GraficoHorizontalBuilder;
+import com.mycompany.climaregist.presenter.Builder.GraficoVerticalBuilder;
 import com.mycompany.climaregist.presenter.Command.PrincipalPresenterExcluirCommand;
 import com.mycompany.climaregist.view.TelaPrincipalView;
-import java.awt.Frame;
+import com.mycompany.climaregist.view.graficos.GraficosView;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
  *
@@ -58,8 +57,15 @@ public class PrincipalPresenter implements IModelObserver {
         tela.getBtnGerarGrafico().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GerarGraficoPresenter gerarGrafico = new GerarGraficoPresenter(new Frame(), true);
-                gerarGrafico.viewGraficos(tela); //funcao do botão de buscar funcionario
+
+                Diretor diretor = new Diretor();
+                Grafico grafico = new Grafico();
+                if (tela.getEscolhaGrafico().getSelectedIndex() == 0) {
+                    grafico = diretor.constroi(new GraficoHorizontalBuilder(grafico));
+                } else if(tela.getEscolhaGrafico().getSelectedIndex() == 1){
+                    grafico = diretor.constroi(new GraficoVerticalBuilder(grafico));
+                }
+                iniciarDialog(grafico);
             }
         });
 
@@ -98,6 +104,21 @@ public class PrincipalPresenter implements IModelObserver {
         return tela;
     }
 
+    public void iniciarDialog(Grafico grafico) {
+        GraficosView graficosView = new GraficosView(tela);
+        graficosView.setLocationRelativeTo(graficosView.getParent());
+        graficosView.getPanelGraficoTemperatura().setLayout(new BorderLayout());
+        graficosView.getPanelGraficoUmidade().setLayout(new BorderLayout());
+        graficosView.getPanelGraficoPressao().setLayout(new BorderLayout());
+        graficosView.getPanelGraficoTemperatura().add(grafico.getGraficoTemperatura());
+        graficosView.getPanelGraficoUmidade().add(grafico.getGraficoUmidade());
+        graficosView.getPanelGraficoPressao().add(grafico.getGraficoPressao());
+        graficosView.getPanelGraficoTemperatura().revalidate();
+        graficosView.getPanelGraficoUmidade().revalidate();
+        graficosView.getPanelGraficoPressao().revalidate();
+        graficosView.setVisible(true);
+    }
+
     @Override
     public void update(List<WeatherData> weatherDataCollection) {
         if (weatherDataCollection.size() > 0) {
@@ -126,8 +147,10 @@ public class PrincipalPresenter implements IModelObserver {
             }
             if (numRowsAnterior < weatherDataCollection.size()) {
                 incluirNaTabela(weatherDataCollection.get(weatherDataCollection.size() - 1));
+                numRowsAnterior = weatherDataCollection.size();
             } else {
                 excluirDaTabela();
+                numRowsAnterior = weatherDataCollection.size();
             }
         } else {
             atualizarUltima("", 0, 0, 0);

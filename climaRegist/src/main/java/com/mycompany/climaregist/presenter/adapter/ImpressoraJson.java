@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.climaregist.presenter.adapter;
+package com.mycompany.climaregist.presenter.Adapter;
 
 import java.io.FileWriter;
 import java.io.IOException;

@@ -5,18 +5,33 @@
  */
 package com.mycompany.climaregist.view.graficos;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 /**
  *
- * @author Davidson
+ * @author tarci
  */
 public class GraficosView extends javax.swing.JDialog {
 
     /**
      * Creates new form GraficosView
      */
-    public GraficosView(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public GraficosView(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
+    }
+
+    public JPanel getPanelGraficoPressao() {
+        return panelGraficoPressao;
+    }
+
+    public JPanel getPanelGraficoTemperatura() {
+        return panelGraficoTemperatura;
+    }
+
+    public JPanel getPanelGraficoUmidade() {
+        return panelGraficoUmidade;
     }
 
     /**
@@ -28,17 +43,62 @@ public class GraficosView extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tabbedPanelGrafico = new javax.swing.JTabbedPane();
+        panelGraficoTemperatura = new javax.swing.JPanel();
+        panelGraficoUmidade = new javax.swing.JPanel();
+        panelGraficoPressao = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 700));
+
+        javax.swing.GroupLayout panelGraficoTemperaturaLayout = new javax.swing.GroupLayout(panelGraficoTemperatura);
+        panelGraficoTemperatura.setLayout(panelGraficoTemperaturaLayout);
+        panelGraficoTemperaturaLayout.setHorizontalGroup(
+            panelGraficoTemperaturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        panelGraficoTemperaturaLayout.setVerticalGroup(
+            panelGraficoTemperaturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 267, Short.MAX_VALUE)
+        );
+
+        tabbedPanelGrafico.addTab("Temperatura", panelGraficoTemperatura);
+
+        javax.swing.GroupLayout panelGraficoUmidadeLayout = new javax.swing.GroupLayout(panelGraficoUmidade);
+        panelGraficoUmidade.setLayout(panelGraficoUmidadeLayout);
+        panelGraficoUmidadeLayout.setHorizontalGroup(
+            panelGraficoUmidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        panelGraficoUmidadeLayout.setVerticalGroup(
+            panelGraficoUmidadeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 267, Short.MAX_VALUE)
+        );
+
+        tabbedPanelGrafico.addTab("Umidade", panelGraficoUmidade);
+
+        javax.swing.GroupLayout panelGraficoPressaoLayout = new javax.swing.GroupLayout(panelGraficoPressao);
+        panelGraficoPressao.setLayout(panelGraficoPressaoLayout);
+        panelGraficoPressaoLayout.setHorizontalGroup(
+            panelGraficoPressaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        panelGraficoPressaoLayout.setVerticalGroup(
+            panelGraficoPressaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 267, Short.MAX_VALUE)
+        );
+
+        tabbedPanelGrafico.addTab("Pressão", panelGraficoPressao);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 688, Short.MAX_VALUE)
+            .addComponent(tabbedPanelGrafico, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 512, Short.MAX_VALUE)
+            .addComponent(tabbedPanelGrafico)
         );
 
         pack();
@@ -47,45 +107,12 @@ public class GraficosView extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GraficosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GraficosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GraficosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GraficosView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                GraficosView dialog = new GraficosView(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel panelGraficoPressao;
+    private javax.swing.JPanel panelGraficoTemperatura;
+    private javax.swing.JPanel panelGraficoUmidade;
+    private javax.swing.JTabbedPane tabbedPanelGrafico;
     // End of variables declaration//GEN-END:variables
 }
