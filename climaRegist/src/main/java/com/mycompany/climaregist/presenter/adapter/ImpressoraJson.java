@@ -7,15 +7,27 @@ package com.mycompany.climaregist.presenter.Adapter;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author tarci
  */
 public class ImpressoraJson {
-    public void imprimir(String impressao) throws IOException{
-        FileWriter fileWriter = new FileWriter("outputjson.json", true);
-        fileWriter.write(impressao);
-        fileWriter.close();
+    private final Path currentRelativePath = Paths.get("");
+    private final String path = currentRelativePath.toAbsolutePath().toString();
+    
+    public void imprimir(String impressao) throws IOException {
+        try {
+            FileWriter fileWriter = new FileWriter(path + "/src/main/java/outputjson.json", true);
+            fileWriter.write(impressao);
+            fileWriter.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ImpressoraJson.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 }
