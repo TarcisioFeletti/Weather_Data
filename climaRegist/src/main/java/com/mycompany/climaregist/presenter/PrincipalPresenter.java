@@ -4,6 +4,8 @@ import com.mycompany.climaregist.model.Grafico;
 import com.mycompany.climaregist.presenter.Command.PrincipalPresenterIncluirCommand;
 import com.mycompany.climaregist.model.IModelObserver;
 import com.mycompany.climaregist.model.WeatherData;
+import com.mycompany.climaregist.presenter.Adapter.AdapterJson;
+import com.mycompany.climaregist.presenter.Adapter.AdapterXml;
 import com.mycompany.climaregist.presenter.Builder.Diretor;
 import com.mycompany.climaregist.presenter.Builder.GraficoHorizontalBuilder;
 import com.mycompany.climaregist.presenter.Builder.GraficoVerticalBuilder;
@@ -13,8 +15,10 @@ import com.mycompany.climaregist.view.graficos.GraficosView;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -54,7 +58,7 @@ public class PrincipalPresenter implements IModelObserver {
             }
         });
 
-        tela.getAtualizarDadosMedios().addActionListener(new ActionListener() {
+        tela.getSelecionadoPeriodo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (tela.getSelecionadoPeriodo().getSelectedIndex()) {
@@ -176,14 +180,34 @@ public class PrincipalPresenter implements IModelObserver {
             if (numRowsAnterior < weatherDataCollection.size()) {
                 incluirNaTabela(weatherDataCollection.get(weatherDataCollection.size() - 1));
                 numRowsAnterior = weatherDataCollection.size();
+                try {
+                    new AdapterJson().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "inclusao");
+                    new AdapterXml().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "inclusao");
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(tela, ex.getMessage());
+                }
             } else {
                 excluirDaTabela();
                 numRowsAnterior = weatherDataCollection.size();
+                try {
+                    new AdapterJson().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
+                    new AdapterXml().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(tela, ex.getMessage());
+                }
             }
+
         } else {
             atualizarUltima("", 0, 0, 0);
             atualizarMedia(0, 0, 0, 0);
+            WeatherData weatherData = weatherDataCollection.get(0);
             excluirDaTabela();
+            try {
+                new AdapterJson().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
+                new AdapterXml().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(tela, ex.getMessage());
+            }
         }
 
     }
