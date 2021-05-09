@@ -90,13 +90,13 @@ public class PrincipalPresenter implements IModelObserver {
             public void actionPerformed(ActionEvent e) {
 
                 Diretor diretor = new Diretor();
-                Grafico grafico = new Grafico();
+                //Grafico grafico = new Grafico();
                 if (tela.getEscolhaGrafico().getSelectedIndex() == 0) {
-                    grafico = diretor.constroi(new GraficoHorizontalBuilder(grafico));
+                    //grafico = diretor.constroi(new GraficoHorizontalBuilder(grafico));
                 } else if (tela.getEscolhaGrafico().getSelectedIndex() == 1) {
-                    grafico = diretor.constroi(new GraficoVerticalBuilder(grafico));
+                    //grafico = diretor.constroi(new GraficoVerticalBuilder(grafico));
                 }
-                iniciarDialog(grafico);
+                //iniciarDialog(grafico);
             }
         });
 
