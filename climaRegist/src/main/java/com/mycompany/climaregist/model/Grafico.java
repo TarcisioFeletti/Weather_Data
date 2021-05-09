@@ -12,7 +12,7 @@ import org.jfree.chart.ChartPanel;
  *
  * @author tarci
  */
-public class Grafico {
+public abstract class Grafico {
     private ChartPanel graficoTemperatura;
     private ChartPanel graficoUmidade;
     private ChartPanel graficoPressao;
@@ -40,6 +40,8 @@ public class Grafico {
     public void setGraficoPressao(ChartPanel graficoPressao) {
         this.graficoPressao = graficoPressao;
     }
+    
+    public abstract ChartPanel gerar();
     
     
 }
