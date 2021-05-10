@@ -735,6 +735,31 @@ public class TelaPrincipalView extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void selecionadoPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selecionadoPeriodoActionPerformed
+    }//GEN-LAST:event_selecionadoPeriodoActionPerformed
+
+    private void dadosTempoDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dadosTempoDataActionPerformed
+    }//GEN-LAST:event_dadosTempoDataActionPerformed
+
+    private void dadosTempoTemperaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dadosTempoTemperaturaActionPerformed
+    }//GEN-LAST:event_dadosTempoTemperaturaActionPerformed
+
+    private void incluirDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incluirDadosActionPerformed
+
+    }//GEN-LAST:event_incluirDadosActionPerformed
+
+    private void atualizarDadosMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarDadosMediosActionPerformed
+    }//GEN-LAST:event_atualizarDadosMediosActionPerformed
+
+    private void salvarTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarTipoActionPerformed
+    }//GEN-LAST:event_salvarTipoActionPerformed
+
+    private void removerBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBotaoActionPerformed
+
+    }//GEN-LAST:event_removerBotaoActionPerformed
+
+    private void btnGerarGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerarGraficoActionPerformed
+    }//GEN-LAST:event_btnGerarGraficoActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton atualizarDadosMedios;
     private javax.swing.JButton btnGerarGrafico;
