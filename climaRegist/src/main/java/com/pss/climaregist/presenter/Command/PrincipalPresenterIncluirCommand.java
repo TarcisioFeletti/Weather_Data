@@ -24,12 +24,16 @@ public class PrincipalPresenterIncluirCommand implements IPrincipalPresenterComm
         WeatherDataCollection.getInstancia().add(new WeatherData(data, Float.parseFloat(presenter.getTela().getDadosTempoTemperatura().getText()),
                 Float.parseFloat(presenter.getTela().getDadosTempoUmidade().getText()),
                 Float.parseFloat(presenter.getTela().getDadosTempoPressao().getText())));
-        new AdapterJson().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), presenter.getTela().getDadosTempoTemperatura().getText(), presenter.getTela().getDadosTempoUmidade().getText(), presenter.getTela().getDadosTempoPressao().getText(), "inclusao");
-        new AdapterXml().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), presenter.getTela().getDadosTempoTemperatura().getText(), presenter.getTela().getDadosTempoUmidade().getText(), presenter.getTela().getDadosTempoPressao().getText(), "inclusao");
+        if (presenter.getTela().getConfigSistemaLog().getSelectedIndex() == 0) {
+            new AdapterJson().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), presenter.getTela().getDadosTempoTemperatura().getText(), presenter.getTela().getDadosTempoUmidade().getText(), presenter.getTela().getDadosTempoPressao().getText(), "inclusao");
+
+        } else if (presenter.getTela().getConfigSistemaLog().getSelectedIndex() == 1) {
+            new AdapterXml().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), presenter.getTela().getDadosTempoTemperatura().getText(), presenter.getTela().getDadosTempoUmidade().getText(), presenter.getTela().getDadosTempoPressao().getText(), "inclusao");
+        }
         presenter.getTela().getDadosTempoData().setText("");
         presenter.getTela().getDadosTempoUmidade().setText("");
         presenter.getTela().getDadosTempoPressao().setText("");
         presenter.getTela().getDadosTempoTemperatura().setText("");
-        
+
     }
 }

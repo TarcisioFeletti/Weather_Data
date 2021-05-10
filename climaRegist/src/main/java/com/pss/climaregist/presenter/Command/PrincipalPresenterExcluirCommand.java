@@ -18,7 +18,7 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class PrincipalPresenterExcluirCommand implements IPrincipalPresenterCommand{
+public class PrincipalPresenterExcluirCommand implements IPrincipalPresenterCommand {
 
     @Override
     public void executar(PrincipalPresenter presenter) throws IOException {
@@ -28,13 +28,17 @@ public class PrincipalPresenterExcluirCommand implements IPrincipalPresenterComm
         var row = tabela.getSelectedRow();
 
         Vector vetor = model.getDataVector().elementAt(tabela.getSelectedRow());
-        LocalDate data = LocalDate.of(Integer.parseInt(vetor.get(0).toString().substring(6, 10)), 
+        LocalDate data = LocalDate.of(Integer.parseInt(vetor.get(0).toString().substring(6, 10)),
                 Integer.parseInt(vetor.get(0).toString().substring(3, 5)),
                 Integer.parseInt(vetor.get(0).toString().substring(0, 2)));
         WeatherDataCollection.getInstancia().remove(new WeatherData(data, Float.parseFloat(vetor.get(1).toString()),
                 Float.parseFloat(vetor.get(2).toString()), Float.parseFloat(vetor.get(3).toString())));
-        new AdapterJson().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), vetor.get(1).toString(), vetor.get(2).toString(), vetor.get(3).toString(), "exclusão");
-        new AdapterXml().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), vetor.get(1).toString(), vetor.get(2).toString(), vetor.get(3).toString(), "exclusão");
+        if (presenter.getTela().getConfigSistemaLog().getSelectedIndex() == 0) {
+            new AdapterJson().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), vetor.get(1).toString(), vetor.get(2).toString(), vetor.get(3).toString(), "exclusão");
+
+        } else if (presenter.getTela().getConfigSistemaLog().getSelectedIndex() == 1) {
+            new AdapterXml().adaptar(data.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), vetor.get(1).toString(), vetor.get(2).toString(), vetor.get(3).toString(), "exclusão");
+        }
     }
 
 }
