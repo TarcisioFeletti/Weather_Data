@@ -35,6 +35,20 @@ public class WeatherData{
     public float getPressao() {
         return pressao;
     }
+
+    public void setTemperatura(float temperatura) {
+        this.temperatura = temperatura;
+    }
+
+    public void setUmidade(float umidade) {
+        this.umidade = umidade;
+    }
+
+    public void setPressao(float pressao) {
+        this.pressao = pressao;
+    }
+    
+    
    
     
 }

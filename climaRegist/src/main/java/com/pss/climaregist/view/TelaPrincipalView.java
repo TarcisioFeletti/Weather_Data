@@ -110,6 +110,10 @@ public class TelaPrincipalView extends javax.swing.JFrame {
         return removerBotao;
     }
 
+    public JTextPane getTotalDeRegistros() {
+        return totalDeRegistros;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is alwayscc
@@ -743,11 +747,6 @@ public class TelaPrincipalView extends javax.swing.JFrame {
 
     private void incluirDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incluirDadosActionPerformed
 
-        int total = Integer.parseInt(totalDeRegistros.getText());
-        total++;
-        totalDeRegistros.setText(Integer.toString(total));
-
-
     }//GEN-LAST:event_incluirDadosActionPerformed
 
     private void atualizarDadosMediosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarDadosMediosActionPerformed
@@ -757,10 +756,6 @@ public class TelaPrincipalView extends javax.swing.JFrame {
     }//GEN-LAST:event_salvarTipoActionPerformed
 
     private void removerBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerBotaoActionPerformed
-
-        int total = Integer.parseInt(totalDeRegistros.getText());
-        total--;
-        totalDeRegistros.setText(Integer.toString(total));
 
     }//GEN-LAST:event_removerBotaoActionPerformed
 
