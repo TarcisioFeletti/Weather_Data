@@ -4,8 +4,6 @@ import com.pss.climaregist.model.IModelObserver;
 import com.pss.climaregist.model.WeatherData;
 import com.pss.climaregist.presenter.Command.PrincipalPresenterExcluirCommand;
 import com.pss.climaregist.presenter.Command.PrincipalPresenterIncluirCommand;
-import com.pss.climaregist.presenter.adapter.AdapterJson;
-import com.pss.climaregist.presenter.adapter.AdapterXml;
 import com.pss.climaregist.view.TelaPrincipalView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +22,6 @@ public class PrincipalPresenter implements IModelObserver {
 
     private static PrincipalPresenter instancia;
     private TelaPrincipalView tela;
-    private int numRowsAnterior;
 
     private PrincipalPresenter() {
         tela = new TelaPrincipalView();
@@ -43,14 +40,22 @@ public class PrincipalPresenter implements IModelObserver {
         tela.getIncluirDados().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PrincipalPresenterIncluirCommand().executar(instancia);
+                try {
+                    new PrincipalPresenterIncluirCommand().executar(instancia);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(tela, ex.getMessage());
+                }
             }
         });
 
         tela.getRemoverBotao().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new PrincipalPresenterExcluirCommand().executar(instancia);
+                try {
+                    new PrincipalPresenterExcluirCommand().executar(instancia);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(tela, ex.getMessage());
+                }
             }
         });
 
@@ -97,19 +102,15 @@ public class PrincipalPresenter implements IModelObserver {
         tela.getUltimaPressao().setText(Float.toString(pressao));
     }
 
-    public void incluirNaTabela(WeatherData dado) {
+    public void atualizarTabela(List<WeatherData> weatherDataCollection) {
         JTable registroTabela = tela.getRegistroTabela();
         DefaultTableModel model = (DefaultTableModel) registroTabela.getModel();
+        model.setNumRows(0);
 
-        model.addRow(new Object[]{dado.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-            dado.getTemperatura(), dado.getUmidade(), dado.getPressao()});
-    }
-
-    public void excluirDaTabela() {
-        JTable registroTabela = tela.getRegistroTabela();
-        DefaultTableModel model = (DefaultTableModel) registroTabela.getModel();
-
-        model.removeRow(registroTabela.getSelectedRow());
+        for (WeatherData weatherData : weatherDataCollection) {
+            model.addRow(new Object[]{weatherData.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                weatherData.getTemperatura(), weatherData.getUmidade(), weatherData.getPressao()});
+        }
     }
 
     public void atualizarMedia(float temperatura, float umidade, float pressao, int count) {
@@ -126,6 +127,7 @@ public class PrincipalPresenter implements IModelObserver {
     @Override
     public void update(List<WeatherData> weatherDataCollection) {
         if (weatherDataCollection.size() > 0) {
+            tela.getTotalDeRegistros().setText(String.valueOf(weatherDataCollection.size()));
             WeatherData weatherData = weatherDataCollection.get(weatherDataCollection.size() - 1);
             atualizarUltima(weatherData.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), weatherData.getTemperatura(),
                     weatherData.getUmidade(), weatherData.getPressao());
@@ -150,37 +152,12 @@ public class PrincipalPresenter implements IModelObserver {
                             CalcularMediaMensalPresenter.getInstancia().getCount());
                     break;
             }
-            if (numRowsAnterior < weatherDataCollection.size()) {
-                incluirNaTabela(weatherDataCollection.get(weatherDataCollection.size() - 1));
-                numRowsAnterior = weatherDataCollection.size();
-                try {
-                    new AdapterJson().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "inclusao");
-                    new AdapterXml().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "inclusao");
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(tela, ex.getMessage());
-                }
-            } else {
-                excluirDaTabela();
-                numRowsAnterior = weatherDataCollection.size();
-                try {
-                    new AdapterJson().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
-                    new AdapterXml().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(tela, ex.getMessage());
-                }
-            }
-
+            atualizarTabela(weatherDataCollection);
         } else {
             atualizarUltima("", 0, 0, 0);
             atualizarMedia(0, 0, 0, 0);
-            WeatherData weatherData = weatherDataCollection.get(0);
-            excluirDaTabela();
-            try {
-                new AdapterJson().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
-                new AdapterXml().adaptar(weatherData.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), String.valueOf(weatherData.getTemperatura()), String.valueOf(weatherData.getUmidade()), String.valueOf(weatherData.getPressao()), "exclusao");
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(tela, ex.getMessage());
-            }
+            tela.getTotalDeRegistros().setText("0");
+            atualizarTabela(weatherDataCollection);
         }
 
     }

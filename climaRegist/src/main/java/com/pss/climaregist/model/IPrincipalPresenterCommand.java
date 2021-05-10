@@ -6,11 +6,12 @@
 package com.pss.climaregist.model;
 
 import com.pss.climaregist.presenter.PrincipalPresenter;
+import java.io.IOException;
 
 /**
  *
  * @author tarci
  */
 public interface IPrincipalPresenterCommand {
-    public void executar(PrincipalPresenter presenter);
+    public void executar(PrincipalPresenter presenter) throws IOException;
 }
